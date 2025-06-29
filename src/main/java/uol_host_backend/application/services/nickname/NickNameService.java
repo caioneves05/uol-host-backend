@@ -1,6 +1,7 @@
 package uol_host_backend.application.services.nickname;
 
 import org.springframework.stereotype.Service;
+import uol_host_backend.application.repositories.NicknameRepositoryFactory;
 import uol_host_backend.domain.enums.GroupNickname;
 
 import java.util.List;
@@ -8,11 +9,23 @@ import java.util.List;
 @Service
 public class NickNameService {
 
-    private List<String> listAllAvailableNicknames(GroupNickname groupNickname, List<String> usedNicknames) {
-        List<String> searcheredNicknames = searchNicknames(groupNickname);
+    public final NicknameRepositoryFactory nicknameRepositoryFactory;
 
-        List<String> availableNicknames = searcheredNicknames
+    public NickNameService(NicknameRepositoryFactory nicknameRepositoryFactory) {
+        this.nicknameRepositoryFactory = nicknameRepositoryFactory;
+    }
+
+    private List<String> searchNicknames(GroupNickname groupNickname) {
+        var nicknameRepository = nicknameRepositoryFactory.create(groupNickname);
+    }
+
+    private List<String> listAllAvailableNicknames(GroupNickname groupNickname, List<String> usedNicknames) {
+        List<String> searchedNicknames = searchNicknames(groupNickname);
+
+        List<String> availableNicknames = searchedNicknames
                 .stream()
+                .filter((nickname) -> !usedNicknames.contains(nickname))
+                .toList();
     }
 
     private String sortedNickname(List<String> availableNicknames) {
