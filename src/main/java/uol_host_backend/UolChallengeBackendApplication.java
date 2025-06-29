@@ -1,4 +1,4 @@
-package uol_host_backend.demo;
+package uol_host_backend;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

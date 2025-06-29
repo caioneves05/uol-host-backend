@@ -1,8 +1,8 @@
-package uol_host_backend.demo.domain.repository;
+package uol_host_backend.domain.repository;
 
 import org.springframework.jdbc.core.simple.JdbcClient;
 import org.springframework.stereotype.Repository;
-import uol_host_backend.demo.domain.entities.Player;
+import uol_host_backend.domain.entities.Player;
 
 @Repository
 public class PlayerRepository {

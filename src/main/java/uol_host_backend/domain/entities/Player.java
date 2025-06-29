@@ -1,6 +1,6 @@
-package uol_host_backend.demo.domain.entities;
+package uol_host_backend.domain.entities;
 
-import uol_host_backend.demo.domain.enums.GroupNickname;
+import uol_host_backend.domain.enums.GroupNickname;
 
 public record Player (
     String id,

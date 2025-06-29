@@ -1,4 +1,4 @@
-package uol_host_backend.demo.domain.enums;
+package uol_host_backend.domain.enums;
 
 public enum GroupNickname {
     AVENGERS("Avengers", "https://raw.githubusercontent.com/uolhost/test-backEnd-Java/master/referencias/vingadores.json"),
