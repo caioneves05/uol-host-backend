@@ -7,31 +7,34 @@ import uol_host_backend.domain.enums.GroupNickname;
 import java.util.List;
 
 @Service
-public class NickNameService {
+public class NicknameService {
 
     public final NicknameRepositoryFactory nicknameRepositoryFactory;
 
-    public NickNameService(NicknameRepositoryFactory nicknameRepositoryFactory) {
+    public NicknameService(NicknameRepositoryFactory nicknameRepositoryFactory) {
         this.nicknameRepositoryFactory = nicknameRepositoryFactory;
     }
 
-    private List<String> searchNicknames(GroupNickname groupNickname) {
+    private List<String> searchNicknames(GroupNickname groupNickname) throws Exception {
         var nicknameRepository = nicknameRepositoryFactory.create(groupNickname);
+
+        return  nicknameRepository.getNicknamesByGroup();
     }
 
-    private List<String> listAllAvailableNicknames(GroupNickname groupNickname, List<String> usedNicknames) {
+    private List<String> listAllAvailableNicknames(GroupNickname groupNickname, List<String> usedNicknames) throws Exception {
         List<String> searchedNicknames = searchNicknames(groupNickname);
 
-        List<String> availableNicknames = searchedNicknames
+        return searchedNicknames
                 .stream()
                 .filter((nickname) -> !usedNicknames.contains(nickname))
                 .toList();
     }
 
     private String sortedNickname(List<String> availableNicknames) {
+        return availableNicknames.get((int) (Math.random() * availableNicknames.size()));
     }
 
-    public String generateNickname(GroupNickname groupNickname, List<String> usedNicknames) {
+    public String generateNickname(GroupNickname groupNickname, List<String> usedNicknames) throws Exception {
         List<String> availableNicknames = listAllAvailableNicknames(groupNickname, usedNicknames);
 
         if (availableNicknames.isEmpty()) {
