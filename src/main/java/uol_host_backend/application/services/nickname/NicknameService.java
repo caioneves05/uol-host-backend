@@ -43,4 +43,8 @@ public class NicknameService {
 
         return sortedNickname(availableNicknames);
     }
+
+    public Object generateNickname() {
+        return null;
+    }
 }

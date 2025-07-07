@@ -7,7 +7,7 @@ public record Player (
     String name,
     String email,
     String phoneNumber,
-    GroupNickname nickname
+    GroupNickname groupNickname
 ){
 
 }

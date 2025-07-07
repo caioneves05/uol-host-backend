@@ -8,7 +8,8 @@ import java.util.List;
 
 @JacksonXmlRootElement(localName = "liga_da_justica")
 public record JusticeLeagueDTO(
-        @JacksonXmlProperty(localName = "codinomes") NicknamesDTO codinomes) implements NicknameDTO {
+        @JacksonXmlProperty(localName = "codinomes") NicknamesDTO codinomes
+) implements NicknameDTO {
 
     @Override
     public List<String> getNicknames() {
