@@ -1,4 +1,4 @@
-package uol_host_backend.application.repositories;
+package uol_host_backend.domain.repositories;
 
 import org.springframework.stereotype.Component;
 import uol_host_backend.application.interfaces.NicknameRepository;

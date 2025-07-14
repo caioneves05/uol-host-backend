@@ -1,16 +1,15 @@
-package uol_host_backend.domain.repository;
+package uol_host_backend.domain.repositories;
 
 import org.springframework.jdbc.core.simple.JdbcClient;
 import org.springframework.stereotype.Repository;
 import uol_host_backend.domain.entities.Player;
 import uol_host_backend.domain.enums.GroupNickname;
 
-import java.util.Arrays;
 import java.util.List;
 
 @Repository
 public class PlayerRepository {
-    private JdbcClient jdbcClient;
+    private final JdbcClient jdbcClient;
 
     PlayerRepository(JdbcClient jdbcClient) {
         this.jdbcClient = jdbcClient;

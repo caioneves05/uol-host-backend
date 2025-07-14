@@ -1,9 +1,9 @@
-package uol_host_backend.application.repositories;
+package uol_host_backend.domain.repositories;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
+import org.springframework.stereotype.Repository;
 import org.springframework.web.client.RestClient;
 import uol_host_backend.application.dtos.AvengersDTO;
 import uol_host_backend.application.interfaces.NicknameRepository;
@@ -11,6 +11,7 @@ import uol_host_backend.domain.enums.GroupNickname;
 
 import java.util.List;
 
+@Repository
 public class AvengersRepository implements NicknameRepository {
     @Override
     public List<String> getNicknamesByGroup() throws Exception {

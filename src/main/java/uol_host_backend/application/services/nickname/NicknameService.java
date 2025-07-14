@@ -1,7 +1,7 @@
 package uol_host_backend.application.services.nickname;
 
 import org.springframework.stereotype.Service;
-import uol_host_backend.application.repositories.NicknameRepositoryFactory;
+import uol_host_backend.domain.repositories.NicknameRepositoryFactory;
 import uol_host_backend.domain.enums.GroupNickname;
 
 import java.util.List;
