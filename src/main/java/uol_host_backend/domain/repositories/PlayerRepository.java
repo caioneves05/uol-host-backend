@@ -21,26 +21,27 @@ public class PlayerRepository {
                 NAME,
                 EMAIL,
                 PHONE_NUMBER,
-                NICKNAME
+                NICKNAME,
                 GROUP_NICKNAME
             ) VALUES (
                 :name,
                 :email,
                 :phoneNumber,
-                :nickname
+                :nickname,
                 :groupNickname
             )
             """)
                 .param("name", player.name())
                 .param("email", player.email())
                 .param("phoneNumber", player.phoneNumber())
-                .param("nickname", player.groupNickname())
+                .param("nickname", player.nickname())
+                .param("groupNickname", player.groupNickname().name())
                 .update();
         return player;
     }
 
     public List<String> findAllByGroupNickname(GroupNickname groupNickname) {
-        return jdbcClient.sql("SELECT DISTINCT(nicknames) FROM PLAYERS WHERE GROUP_NICKNAME = :groupNickname")
+        return jdbcClient.sql("SELECT DISTINCT(nickname) FROM PLAYERS WHERE GROUP_NICKNAME = :groupNickname")
                 .param("groupNickname", groupNickname.getName())
                 .query(String.class)
                 .list();

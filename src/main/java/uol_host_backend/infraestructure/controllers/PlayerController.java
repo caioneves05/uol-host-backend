@@ -20,21 +20,26 @@ public class PlayerController {
         this.playerService = playerService;
     }
 
-    @GetMapping("")
+    @GetMapping
     public String registerPlayer(Model model) {
-        model.addAttribute("groupsNicknames", GroupNickname.values());
-        return "register_players";
+        return getViewAndModel(model, new Player(null, null, null, null, null));
     }
 
-    @PostMapping("new-player")
+    @PostMapping("/new-player")
     public String registerPlayer(@ModelAttribute Player player) {
         try {
             playerService.registerPlayer(player);
             return "redirect:/players";
         } catch (Exception e) {
-            return "redirect:/players?error=" + e.getMessage();
+            System.out.println("Error registering player: " + e.getMessage());
+            return "redirect:/register-players";
         }
 
     }
 
+    private String getViewAndModel(Model model, Player player) {
+        model.addAttribute("player", player);
+        model.addAttribute("groupsNicknames", GroupNickname.values());
+        return "register_players";
+    }
 }
