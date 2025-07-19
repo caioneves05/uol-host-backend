@@ -18,7 +18,7 @@ public class NicknameService {
     private List<String> searchNicknames(GroupNickname groupNickname) throws Exception {
         var nicknameRepository = nicknameRepositoryFactory.create(groupNickname);
 
-        return  nicknameRepository.getNicknamesByGroup();
+        return  nicknameRepository.getNicknamesByGroup().getNicknames();
     }
 
     private List<String> listAllAvailableNicknames(GroupNickname groupNickname, List<String> usedNicknames) throws Exception {

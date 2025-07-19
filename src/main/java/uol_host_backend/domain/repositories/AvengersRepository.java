@@ -6,6 +6,7 @@ import org.springframework.http.MediaType;
 import org.springframework.stereotype.Repository;
 import org.springframework.web.client.RestClient;
 import uol_host_backend.application.dtos.AvengersDTO;
+import uol_host_backend.application.dtos.NicknameDTO;
 import uol_host_backend.application.interfaces.NicknameRepository;
 import uol_host_backend.domain.enums.GroupNickname;
 
@@ -14,7 +15,7 @@ import java.util.List;
 @Repository
 public class AvengersRepository implements NicknameRepository {
     @Override
-    public List<String> getNicknamesByGroup() throws Exception {
+    public NicknameDTO getNicknamesByGroup() throws Exception {
         var nicknames = RestClient
                 .builder()
                 .defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
@@ -27,9 +28,7 @@ public class AvengersRepository implements NicknameRepository {
 
         var objectMapper = new ObjectMapper();
 
-        var avengers = objectMapper.readValue(nicknames, AvengersDTO.class);
-
-        return avengers.getNicknames();
+        return objectMapper.readValue(nicknames, AvengersDTO.class);
 
     }
 }

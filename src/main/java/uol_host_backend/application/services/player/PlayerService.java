@@ -14,8 +14,11 @@ public class PlayerService {
     private final PlayerRepository playerRepository;
     private final NicknameService nicknameService;
 
+    public List<Player> allPlayers() {
+        return playerRepository.findAll();
+    }
 
-    public PlayerService(PlayerRepository playerRepository, NicknameService nicknameService) {
+    public PlayerService (PlayerRepository playerRepository, NicknameService nicknameService) {
         this.playerRepository = playerRepository;
         this.nicknameService = nicknameService;
     }

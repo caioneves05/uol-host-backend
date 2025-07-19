@@ -46,4 +46,10 @@ public class PlayerRepository {
                 .query(String.class)
                 .list();
     }
+
+    public List<Player> findAll() {
+        return jdbcClient.sql("SELECT * FROM PLAYERS ORDER BY LOWER(NICKNAME), id")
+                .query(Player.class)
+                .list();
+    }
 }
