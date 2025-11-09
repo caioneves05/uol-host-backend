@@ -24,4 +24,4 @@ jobs:
       uses: docker/build-push-action@v4
       with:
         push: true
-        tags: uol-host-backend/app:latest
+        tags: ${{ secrets.DOCKERHUB_USERNAME }}/uol-host-backend:latest
