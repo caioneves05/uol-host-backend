@@ -3,6 +3,7 @@ package uol_host_backend.application.services.nickname;
 import org.springframework.stereotype.Service;
 import uol_host_backend.domain.repositories.NicknameRepositoryFactory;
 import uol_host_backend.domain.enums.GroupNickname;
+import uol_host_backend.exception.GroupNicknameUnavailableException;
 
 import java.util.List;
 
@@ -38,7 +39,7 @@ public class NicknameService {
         List<String> availableNicknames = listAllAvailableNicknames(groupNickname, usedNicknames);
 
         if (availableNicknames.isEmpty()) {
-            throw new RuntimeException("There are no available nicknames for this group.");
+            throw new GroupNicknameUnavailableException();
         }
 
         return sortedNickname(availableNicknames);

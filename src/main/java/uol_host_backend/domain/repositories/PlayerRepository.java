@@ -16,6 +16,13 @@ public class PlayerRepository {
     }
 
     public Player save(Player player) {
+
+        boolean exists = jdbcClient.sql("SELECT COUNT(*) FROM PLAYERS WHERE NICKNAME = :nickname AND GROUP_NICKNAME = :groupNickname")
+                .param("nickname", player.nickname())
+                .param("groupNickname", player.groupNickname().name())
+                .queryForObject(Long.class)
+                .orElse(0L) > 0;
+
         jdbcClient.sql("""
             INSERT INTO PLAYERS (
                 NAME,

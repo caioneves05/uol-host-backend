@@ -1,7 +1,9 @@
 package uol_host_backend.infraestructure.controllers;
 
+import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -9,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import uol_host_backend.application.services.player.PlayerService;
 import uol_host_backend.domain.entities.Player;
 import uol_host_backend.domain.enums.GroupNickname;
+import uol_host_backend.exception.GroupNicknameUnavailableException;
 
 @Controller
 @RequestMapping("/register-players")
@@ -26,13 +29,17 @@ public class PlayerController {
     }
 
     @PostMapping("/new-player")
-    public String registerPlayer(@ModelAttribute Player player) {
+    public String registerPlayer(@ModelAttribute @Valid Player player, BindingResult result, Model model) throws Exception {
+
+        if(result.hasErrors())
+            return getViewAndModel(model, player);
+
         try {
             playerService.registerPlayer(player);
-            return "redirect:/players";
-        } catch (Exception e) {
-            System.out.println("Error registering player: " + e.getMessage());
             return "redirect:/register-players";
+        } catch (GroupNicknameUnavailableException e) {
+            result.rejectValue("groupNickname", "groupNicknameUnavailable", e.getMessage());
+            return getViewAndModel(model, player);
         }
 
     }
