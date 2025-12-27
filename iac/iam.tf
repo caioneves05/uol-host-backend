@@ -38,6 +38,30 @@ resource "aws_iam_role" "role_github_actions-ecr" {
     ]
   })
 
+  inline_policy {
+    name = "policy-github-actions-ecr"
+    policy = jsonencode({
+      "Version" : "2012-10-17",
+      "Statement" : [
+        {
+          "Sid" : "statement1",
+          "Effect" : "Allow",
+          "Action" : [
+            "ecr:GetAuthorizationToken",
+            "ecr:BatchCheckLayerAvailability",
+            "ecr:GetDownloadUrlForLayer",
+            "ecr:BatchGetImage",
+            "ecr:PutImage",
+            "ecr:InitiateLayerUpload",
+            "ecr:UploadLayerPart",
+            "ecr:CompleteLayerUpload"
+          ],
+          "Resource" : "*"
+        }
+      ]
+    })
+  }
+
   tags = {
     iac         = "true"
     profile     = "github-actions"
