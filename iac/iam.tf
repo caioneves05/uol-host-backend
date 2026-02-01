@@ -10,6 +10,34 @@ resource "aws_iam_openid_connect_provider" "oidc_github" {
   }
 }
 
+resource "aws_iam_role" "app-runner-role" {
+  name = "app-runner-role"
+  assume_role_policy = jsonencode({
+    "Version" : "2012-10-17",
+    "Statement" : [
+      {
+        "Sid" : "Statement1",
+        "Effect" : "Allow",
+        "Principal" : {
+          "Service" : "build.apprunner.amazonaws.com"
+        },
+        "Action" : "sts:AssumeRole"
+      }
+    ]
+
+  })
+
+  managed_policy_arns = [
+    "arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryReadOnly"
+  ]
+
+  tags = {
+    iac         = "true"
+    profile     = "github-actions"
+    environment = "dev"
+  }
+}
+
 resource "aws_iam_role" "role_github_actions-ecr" {
   name = "role_github_actions-ecr"
   assume_role_policy = jsonencode({
@@ -45,6 +73,21 @@ resource "aws_iam_role" "role_github_actions-ecr" {
       "Statement" : [
         {
           "Sid" : "statement1",
+          Action : "appRunner:*",
+          "Effect" : "Allow",
+          "Resource" : "*"
+        },
+        {
+          "Sid" : "statement2",
+          Action : [
+            "iam:PassRole",
+            "logs:CreateServiceLinkedRole",
+          ],
+          "Effect" : "Allow",
+          "Resource" : "*"
+        },
+        {
+          "Sid" : "statement3",
           "Effect" : "Allow",
           "Action" : [
             "ecr:GetAuthorizationToken",
