@@ -54,7 +54,7 @@ jobs:
       id: build_and_push_ecr
       run: |
         REGISTRY=${{ steps.ecr_registry.outputs.registry }}
-        IMAGE=$REGISTRY/uol-host-backend:${{ steps.generate_tag.outputs.sha }}
+        IMAGE=$REGISTRY/uol-host-backend-ci:${{ steps.generate_tag.outputs.sha }}
         docker build -t $IMAGE .
         docker push $IMAGE
         echo "IMAGE=$IMAGE" >> $GITHUB_OUTPUT
