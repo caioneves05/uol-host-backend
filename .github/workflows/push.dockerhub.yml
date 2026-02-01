@@ -11,7 +11,7 @@ permissions:
 
 jobs:
   dockerhub:
-    name: Build and Push Docker Image to Docker Hub
+    name: Build and Push Docker Image to Docker Hub and ECR, Deploy to App Runner
     runs-on: ubuntu-latest
 
     steps:
@@ -34,14 +34,32 @@ jobs:
       id: login-ecr
       uses: aws-actions/amazon-ecr-login@v2
 
-#    - name: Log in to Docker Hub
-#      uses: docker/login-action@v2
-#      with:
-#        username: ${{ secrets.DOCKERHUB_USERNAME }}
-#        password: ${{ secrets.DOCKERHUB_TOKEN }}
+    - name: Set ECR registry URI
+      id: ecr_registry
+      run: echo "::set-output name=registry::602151477390.dkr.ecr.us-east-2.amazonaws.com"
 
-#    - name: Build and push Docker image
-#      uses: docker/build-push-action@v4
-#      with:
-#        push: true
-#        tags: ${{ secrets.DOCKERHUB_USERNAME }}/uol-host-backend:${{ steps.generate_tag.outputs.sha }},${{ secrets.DOCKERHUB_USERNAME }}/uol-host-backend:latest
+    - name: Build and push Docker image to Docker Hub
+      uses: docker/build-push-action@v4
+      with:
+        push: true
+        tags: ${{ secrets.DOCKERHUB_USERNAME }}/uol-host-backend:${{ steps.generate_tag.outputs.sha }},${{ secrets.DOCKERHUB_USERNAME }}/uol-host-backend:latest
+
+    - name: Build and push Docker image to ECR
+      id: build_and_push_ecr
+      run: |
+        REGISTRY=${{ steps.ecr_registry.outputs.registry }}
+        IMAGE=$REGISTRY/uol-host-backend:${{ steps.generate_tag.outputs.sha }}
+        docker build -t $IMAGE .
+        docker push $IMAGE
+        echo "IMAGE=$IMAGE" >> $GITHUB_OUTPUT
+
+    - name: Deploy to App Runner
+      uses: awslabs/amazon-app-runner-deploy@main
+      with:
+        service: uol-host-backend
+        access-role-arn: "arn:aws:iam::602151477390:role/app-runner-role"
+        region: us-east-2
+        cpu: 1
+        memory: 1
+        port: 8080
+        image: ${{ steps.build_and_push_ecr.outputs.IMAGE }}
