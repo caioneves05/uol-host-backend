@@ -60,6 +60,7 @@ jobs:
         echo "IMAGE=$IMAGE" >> $GITHUB_OUTPUT
 
     - name: Deploy to App Runner
+      id: deploy_apprunner
       uses: awslabs/amazon-app-runner-deploy@main
       with:
         service: uol-host-backend
@@ -69,3 +70,6 @@ jobs:
         memory: 2
         port: 8080
         image: ${{ steps.build_and_push_ecr.outputs.IMAGE }}
+
+    - name: Deployment Complete
+      run: echo "Deployment to App Runner completed successfully. ${{ deply_apprunner.outputs.service-url }}"

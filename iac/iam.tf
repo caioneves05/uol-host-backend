@@ -81,7 +81,7 @@ resource "aws_iam_role" "role_github_actions-ecr" {
           "Sid" : "statement2",
           Action : [
             "iam:PassRole",
-            "logs:CreateServiceLinkedRole",
+            "iam:CreateServiceLinkedRole",
           ],
           "Effect" : "Allow",
           "Resource" : "*"
