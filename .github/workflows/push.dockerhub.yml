@@ -6,7 +6,7 @@ on:
         - main
 
 permissions:
-    contents: write
+    contents: read
     id-token: write
 
 jobs:
@@ -33,17 +33,17 @@ jobs:
 #    - name: Login to Amazon ECR
 #      id: login-ecr
 #      uses: aws-actions/amazon-ecr-login@v2
-
+#
 #    - name: Set ECR registry URI
 #      id: ecr_registry
 #      run: echo "::set-output name=registry::602151477390.dkr.ecr.us-east-2.amazonaws.com"
-
+#
 #    - name: Login to Docker Hub
 #      uses: docker/login-action@v3
 #      with:
 #        username: ${{ secrets.DOCKERHUB_USERNAME }}
 #        password: ${{ secrets.DOCKERHUB_TOKEN }}
-
+#
 #    - name: Build and push Docker image to Docker Hub
 #      uses: docker/build-push-action@v4
 #      with:
@@ -58,7 +58,7 @@ jobs:
 #        docker build -t $IMAGE .
 #        docker push $IMAGE
 #        echo "IMAGE=$IMAGE" >> $GITHUB_OUTPUT
-
+#
 #    - name: Deploy to App Runner
 #      id: deploy_apprunner
 #      uses: awslabs/amazon-app-runner-deploy@main
@@ -71,36 +71,5 @@ jobs:
 #        port: 8080
 #        image: ${{ steps.build_and_push_ecr.outputs.IMAGE }}
 
-<<<<<<< Updated upstream
-    - name: Build and push Docker image to ECR
-      id: build_and_push_ecr
-      run: |
-        REGISTRY=${{ steps.ecr_registry.outputs.registry }}
-        IMAGE=$REGISTRY/uol-host-backend-ci:${{ steps.generate_tag.outputs.sha }}
-        docker build -t $IMAGE .
-        docker push $IMAGE
-        echo "IMAGE=$IMAGE" >> $GITHUB_OUTPUT
-
-    - name: Deploy to App Runner
-      id: deploy_apprunner
-      uses: awslabs/amazon-app-runner-deploy@main
-      with:
-        service: uol-host-backend
-        access-role-arn: "arn:aws:iam::602151477390:role/app-runner-role"
-        region: us-east-2
-        cpu: 1
-        memory: 2
-        port: 8080
-        image: ${{ steps.build_and_push_ecr.outputs.IMAGE }}
-
     - name: Deployment Complete
       run: echo "Deployment to App Runner completed successfully. ${{ deply_apprunner.outputs.service-url }}"
-=======
-#    - name: Deployment Complete
-#      run: echo "Deployment to App Runner completed successfully. ${{ deply_apprunner.outputs.service-url }}"
-
-    - name: Semantic Release
-      uses: cycjimmy/semantic-release-action@v6
-      env:
-        GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
->>>>>>> Stashed changes
