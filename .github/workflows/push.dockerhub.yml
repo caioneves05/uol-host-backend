@@ -82,7 +82,7 @@ jobs:
           port: 8080
           image: ${{ steps.build_and_push_ecr.outputs.IMAGE }}
       - name: Deployment Complete
-        run: echo "Deployment to App Runner completed successfully. ${{ deply_apprunner.outputs.service-url }}"
+        run: echo "Deployment to App Runner completed successfully. ${{ deploy_apprunner.outputs.service-url }}"
       - name: Semantic Release
         uses: cycjimmy/semantic-release-action@v6
         env:
