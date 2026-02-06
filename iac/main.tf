@@ -5,6 +5,12 @@ terraform {
       version = "5.49.0"
     }
   }
+
+  backend "s3" {
+    bucket =  "uol-host-terraform-state"
+    key    = "state/terraform.tfstate"
+    region = "us-east-2"
+  }
 }
 
 provider "aws" {
